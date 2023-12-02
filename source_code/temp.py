@@ -2,55 +2,53 @@ import subprocess as sp
 import mysql.connector
 
 # Function to handle hiring an employee
-def hire_an_employee(cursor, connection):
+def option1(cursor, connection):
     try:
-        # Takes employee details as input
-        row = {}
-        print("Enter new employee's details: ")
-        name = input("Name (Fname Minit Lname): ").split(' ')
-        row["Fname"] = name[0]
-        row["Minit"] = name[1]
-        row["Lname"] = name[2]
-        row["Ssn"] = input("SSN: ")
-        row["Bdate"] = input("Birth Date (YYYY-MM-DD): ")
-        row["Address"] = input("Address: ")
-        row["Sex"] = input("Sex: ")
-        row["Salary"] = float(input("Salary: "))
-        row["Dno"] = int(input("Dno: "))
-
-        query = "INSERT INTO EMPLOYEE(Fname, Minit, Lname, Ssn, Bdate, Address, Sex, Salary, Dno) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (row["Fname"], row["Minit"], row["Lname"], row["Ssn"], row["Bdate"], row["Address"], row["Sex"], row["Salary"], row["Dno"])
-
-        cursor.execute(query, values)
-        connection.commit()
-
-        print("Inserted Into Database")
+        print("Option 1 - Not implemented")
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to insert into database")
+        print("Failed to do option1 into database")
         print("Error:", e)
 
 # Function to handle other options (to be implemented)
-def option2():
-    print("Option 2 - Not implemented")
+def option2(cursor, connection):
+    try:
+        print("Option 2 - Not implemented")
 
-def option3():
-    print("Option 3 - Not implemented")
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do option2 into database")
+        print("Error:", e)
 
-def option4():
-    print("Option 4 - Not implemented")
+def option3(cursor, connection):
+    try:
+        print("Option 3 - Not implemented")
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do option3 into database")
+        print("Error:", e)
+
+def option4(cursor, connection):
+    try:
+        print("Option 4 - Not implemented")
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do option4 into database")
+        print("Error:", e)
 
 # Function to dispatch user choices
 def dispatch(choice, cursor, connection):
     if choice == 1:
-        hire_an_employee(cursor, connection)
+        option1(cursor, connection)
     elif choice == 2:
-        option2()
+        option2(cursor, connection)
     elif choice == 3:
-        option3()
+        option3(cursor, connection)
     elif choice == 4:
-        option4()
+        option4(cursor, connection)
     else:
         print("Error: Invalid Option")
 
@@ -85,7 +83,7 @@ def main():
                 while True:
                     tmp = sp.call('clear', shell=True)
                     # Display menu options
-                    print("1. Hire an Employee")
+                    print("1. Option 1")
                     print("2. Option 2")
                     print("3. Option 3")
                     print("4. Option 4")
@@ -97,7 +95,7 @@ def main():
                         exit()
                     else:
                         dispatch(choice, cursor, connection)
-                        tmp = input("Enter any key to CONTINUE>")
+                        tmp = input("Press enter to CONTINUE>")
 
         except mysql.connector.Error as e:
             tmp = sp.call('clear', shell=True)
