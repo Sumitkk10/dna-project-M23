@@ -2,10 +2,10 @@ import mysql.connector
 
 # Establish a connection to your MySQL database
 db_connection = mysql.connector.connect(
-    host="your_host",
-    user="your_username",
-    password="your_password",
-    database="your_database"
+    host="localhost",
+    user="root",
+    password="random123",
+    database="finalphase4"
 )
 
 # Create a cursor object using the cursor() method
@@ -49,8 +49,7 @@ def add_album_data():
 
     print("Album data added successfully!")
 
-# Add album data
-add_album_data()
+
 
 def check_date_overlap(start_date, end_date):
     cursor.execute("SELECT * FROM tourdates WHERE ((? BETWEEN start_date AND end_date) OR (? BETWEEN start_date AND end_date))", (start_date, end_date))
@@ -79,8 +78,7 @@ def add_tour_dates():
     except ValueError:
         print("Error: Invalid date format or tour ID. Please follow the correct format.")
 
-# Example usage
-add_tour_dates()
+
 
 ###################################
 

@@ -4,17 +4,67 @@ import mysql.connector
 # Function to handle hiring an employee
 def option1(cursor, connection):
     try:
-        print("Option 1 - Not implemented")
+        table_name = input("Enter the table name: ")
+        query = f"SELECT * FROM {table_name}"
+        cursor.execute(query)
+
+        records = cursor.fetchall()
+
+        if records:
+            print(f"\nContents of table {table_name}:\n")
+            for record in records:
+                print(record)
+        else:
+            print(f"\nTable {table_name} is empty.")
+        connection.commit()
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do option1 into database")
+        print("Failed to fetch data from the database")
+        print("Error:", e)
+
+def sub_option1(cursor, connection):
+    try:
+        print("hi")
+        #artists_released_past_year(connection)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do sub-option 1 into database")
+        print("Error:", e)
+
+def sub_option2(cursor, connection):
+    try:
+        print("Sub-Option 2 - Not implemented")
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do sub-option 2 into database")
         print("Error:", e)
 
 # Function to handle other options (to be implemented)
 def option2(cursor, connection):
     try:
-        print("Option 2 - Not implemented")
+        while True:
+            tmp = sp.call('clear', shell=True)
+            # Display sub-menu options for option 2
+            print("Option 2:")
+            print("1. Recent Album Releases by Artists")
+            print("2. Discover Artists Under the Guidance of a Specific Producer")
+            print("3. Back to main menu")
+
+            sub_choice = int(input("Enter sub-choice> "))
+
+            if sub_choice == 3:
+                break  # Go back to the main menu
+            elif sub_choice == 1:
+                sub_option1(cursor, connection)
+            elif sub_choice == 2:
+                sub_option2(cursor, connection)
+            else:
+                print("Error: Invalid Sub-Option")
+
+            tmp = input("Press enter to CONTINUE>")
 
     except mysql.connector.Error as e:
         connection.rollback()
@@ -83,10 +133,10 @@ def main():
                 while True:
                     tmp = sp.call('clear', shell=True)
                     # Display menu options
-                    print("1. Option 1")
-                    print("2. Option 2")
-                    print("3. Option 3")
-                    print("4. Option 4")
+                    print("1. View Tables")
+                    print("2. Retrieval")
+                    print("3. Modification")
+                    print("4. Functional Analysis")
                     print("5. Logout")
 
                     choice = int(input("Enter choice> "))
