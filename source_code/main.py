@@ -191,8 +191,8 @@ def modify_option2(cursor, connection):
 
 def modify_option3(cursor, connection):
     try:
-        album = input("Enter album name: ") 
-        chart = input("Enter its chart position: ")
+        album = int(input("Enter album ID: "))
+        chart = int(input("Enter its chart position: "))
         update_chart_position(cursor, connection, album, chart)
 
     except mysql.connector.Error as e:
@@ -202,8 +202,9 @@ def modify_option3(cursor, connection):
 
 def modify_option4(cursor, connection):
     try:
+        campaign_name = input("Enter campaign name: ")
         budget = int(input("Enter new budget: "))
-        assign_budget_to_campaign(cursor, connection, budget)
+        assign_budget_to_campaign(cursor, connection, campaign_name, budget)
 
     except mysql.connector.Error as e:
         connection.rollback()
