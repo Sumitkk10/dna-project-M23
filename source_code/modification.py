@@ -47,3 +47,103 @@ def add_tour_dates(cursor, db_connection, tour_id, tour_name, ticket_sales, tour
             print("Tour dates added successfully!")
     except ValueError:
         print("Error: Invalid date format or tour ID. Please follow the correct format.")
+
+def update_chart_position(cursor, db_connection, album_name, new_chart_position):
+    try:
+        # Join tables to retrieve AlbumID using album name
+        cursor.execute("""
+            SELECT Album.AlbumID
+            FROM Album
+            INNER JOIN AlbumName ON Album.CoverID = AlbumName.CoverID
+            WHERE AlbumName.AlbumName = %s
+        """, (album_name,))
+        album_id = cursor.fetchone()
+
+        if album_id:
+            # Update the chart position of the specified album
+            cursor.execute("""
+                UPDATE ChartPosition
+                SET ChartPositionNumber = %s
+                WHERE AlbumID = %s
+            """, (new_chart_position, album_id[0]))  # album_id is a tuple, so use album_id[0] to get the value
+
+            # Commit the transaction
+            db_connection.commit()
+            print(f"Chart position for '{album_name}' updated successfully!")
+        else:
+            print(f"Album '{album_name}' not found.")
+    except mysql.connector.Error as e:
+        db_connection.rollback()
+        print(f"An error occurred: {e}")
+
+def assign_budget_to_campaign(cursor, db_connection, user_budget):
+    try:
+        # Get the AlbumID with the highest chart position
+        cursor.execute("""
+            SELECT AlbumID
+            FROM ChartPosition
+            ORDER BY ChartPositionNumber DESC
+            LIMIT 1
+        """)
+        highest_chart_album_id = cursor.fetchone()
+
+        if highest_chart_album_id:
+            highest_chart_album_id = highest_chart_album_id[0]
+
+            # Find the corresponding campaign linked to the highest-charted album
+            cursor.execute("""
+                SELECT campaign_name
+                FROM marketing_campaigns
+                WHERE AlbumID = %s
+            """, (highest_chart_album_id,))
+            campaign_name = cursor.fetchone()
+
+            if campaign_name:
+                # Update the budget of the corresponding campaign with user input
+                cursor.execute("""
+                    UPDATE marketing_campaigns
+                    SET Budget = %s
+                    WHERE campaign_name = %s
+                """, (user_budget, campaign_name[0]))
+                db_connection.commit()
+                print(f"Budget updated for campaign '{campaign_name[0]}' to {user_budget}")
+            else:
+                print("No campaign found for the highest charted album.")
+        else:
+            print("No album found in the ChartPosition table.")
+        
+    except mysql.connector.Error as e:
+        db_connection.rollback()
+        print(f"An error occurred: {e}")
+
+def delete_artist(cursor, db_connection, artist_id):
+    try:
+        # Delete the record of the specified artist
+        cursor.execute("""
+            DELETE FROM Artists
+            WHERE artist_id = %s
+        """, (artist_id,))
+
+        # Commit the transaction
+        db_connection.commit()
+        print(f"Record for artist_id {artist_id} deleted successfully!")
+        
+    except mysql.connector.Error as e:
+        db_connection.rollback()
+        print(f"An error occurred: {e}")
+
+def delete_employee(cursor, db_connection, employee_id):
+    try:
+        # Delete the record of the specified employee
+        cursor.execute("""
+            DELETE FROM Employee
+            WHERE EmployeeID = %s
+        """, (employee_id,))
+
+        # Commit the transaction
+        db_connection.commit()
+        print(f"Employee with ID {employee_id} deleted successfully!")
+
+    except mysql.connector.Error as e:
+        db_connection.rollback()
+        print(f"An error occurred: {e}")

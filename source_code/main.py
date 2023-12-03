@@ -2,6 +2,7 @@ import subprocess as sp
 import mysql.connector
 from retrieval import *
 from modification import *
+from analysis import *
 
 # Function to handle hiring an employee
 def option1(cursor, connection):
@@ -188,6 +189,47 @@ def modify_option2(cursor, connection):
         print("Failed to do modify-option 2 into database")
         print("Error:", e)
 
+def modify_option3(cursor, connection):
+    try:
+        album = input("Enter album name: ") 
+        chart = input("Enter its chart position: ")
+        update_chart_position(cursor, connection, album, chart)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do modify-option 3 into database")
+        print("Error:", e)
+
+def modify_option4(cursor, connection):
+    try:
+        budget = int(input("Enter new budget: "))
+        assign_budget_to_campaign(cursor, connection, budget)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do modify-option 4 into database")
+        print("Error:", e)
+
+def modify_option5(cursor, connection):
+    try:
+        artist = int(input("Enter artist ID: ")) 
+        delete_artist(cursor, connection, artist)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do modify-option 5 into database")
+        print("Error:", e)
+
+def modify_option6(cursor, connection):
+    try:
+        budget = int(input("Enter employee ID: "))
+        delete_employee(cursor, connection, budget)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do modify-option 6 into database")
+        print("Error:", e)
+
 def option3(cursor, connection):
     try:
         while True:
@@ -196,25 +238,35 @@ def option3(cursor, connection):
             print("Option 3:")
             # Insert
             print("1. Add artists album data")
-            print("2. Add tour dates to the database")
+            print("2. Add new tours to the database")
+            # Update
+            print("3. Chart Position Updates")
+            print("4. Reallocate marketing campaign budgets")
+            #Delete
+            print("5. Deleting Departing Artists")
+            print("6. Employee Deletion")
+
             print("7. Back to main menu")
 
             sub_choice = int(input("Enter sub-choice> "))
 
             if sub_choice == 7:
                 break  # Go back to the main menu
+            # Insertion
             elif sub_choice == 1:
                 modify_option1(cursor, connection)
             elif sub_choice == 2:
                 modify_option2(cursor, connection)
+            # Updation
             elif sub_choice == 3:
-                retrieve_option3(cursor, connection)
+                modify_option3(cursor, connection)
             elif sub_choice == 4:
-                retrieve_option4(cursor, connection)
+                modify_option4(cursor, connection)
+            # Deletion
             elif sub_choice == 5:
-                retrieve_option5(cursor, connection)
+                modify_option5(cursor, connection)
             elif sub_choice == 6:
-                retrieve_option6(cursor, connection)
+                modify_option6(cursor, connection)
 
             else:
                 print("Error: Invalid Sub-Option")
@@ -226,9 +278,43 @@ def option3(cursor, connection):
         print("Failed to do option3 into database")
         print("Error:", e)
 
+def functional_option1(cursor, connection):
+    try:
+        get_high_grossing_collaboration(cursor, connection)
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to get high grossing collaboration")
+        print("Error:", e)
+
+def functional_option2(cursor, connection):
+    try:
+        average_chart_position(cursor, connection)
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to calculate average chart position")
+        print("Error:", e)
+
 def option4(cursor, connection):
     try:
-        print("Option 4 - Not implemented")
+        while True:
+            tmp = sp.call('clear', shell=True)
+            print("Option 4:")
+            print("1. Get High Grossing Collaboration")
+            print("2. Calculate Average Chart Position")
+            print("3. Back to main menu")
+
+            sub_choice = int(input("Enter sub-choice> "))
+
+            if sub_choice == 3:
+                break  # Go back to the main menu
+            elif sub_choice == 1:
+                functional_option1(cursor, connection)
+            elif sub_choice == 2:
+                functional_option2(cursor, connection)
+            else:
+                print("Error: Invalid Sub-Option")
+
+            tmp = input("Press enter to CONTINUE>")
 
     except mysql.connector.Error as e:
         connection.rollback()
