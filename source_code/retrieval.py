@@ -148,3 +148,51 @@ def artist_with_min_albums(cursor, db_connection):
 
     except mysql.connector.Error as e:
         print(f"An error occurred: {e}")
+
+def check_artist_name(cursor, db_connection, user_input):
+    try:
+        # SQL query to retrieve all records from the Artists table
+        query = "SELECT artist_name FROM Artists"
+
+        # Execute the query
+        cursor.execute(query)
+
+        # Fetch all the results
+        artist_records = cursor.fetchall()
+
+        # Iterate through each record and check for the user input in the artist_name field
+        ok = 0
+        for record in artist_records:
+            artist_name = record[0]
+            if user_input in artist_name:
+                print(f"'{user_input}' exists in artist name: {artist_name}")
+                ok = 1
+        if(ok == 0):
+            print(f"'{user_input}' does not exist in artists")
+        
+    except mysql.connector.Error as e:
+        print(f"An error occurred: {e}")
+        
+def check_album_name(cursor, db_connection, user_input):
+    try:
+        # SQL query to retrieve all records from the Artists table
+        query = "SELECT AlbumName FROM AlbumName"
+
+        # Execute the query
+        cursor.execute(query)
+
+        # Fetch all the results
+        album_records = cursor.fetchall()
+
+        # Iterate through each record and check for the user input in the artist_name field
+        ok = 0
+        for record in album_records:
+            album_name = record[0]
+            if user_input in album_name:
+                print(f"'{user_input}' exists in album name: {album_name}")
+                ok = 1
+        if(ok == 0):
+            print(f"'{user_input}' does not exist in albums")
+        
+    except mysql.connector.Error as e:
+        print(f"An error occurred: {e}")

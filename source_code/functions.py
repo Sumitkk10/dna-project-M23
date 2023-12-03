@@ -28,10 +28,7 @@ def add_album_data(cursor, db_connection, genre_type, album_id, release_date, ch
     tracklist_values = (album_id, tracklist, duration)
     cursor.execute(tracklist_insert_query, tracklist_values)
     db_connection.commit()
-
     print("Album data added successfully!")
-
-
 
 def check_date_overlap(cursor, db_connection, start_date, end_date):
     cursor.execute("SELECT * FROM tourdates WHERE ((? BETWEEN start_date AND end_date) OR (? BETWEEN start_date AND end_date))", (start_date, end_date))
@@ -179,26 +176,7 @@ def delete_employee(cursor, db_connection, employee_id):
 
 ##search#######################
 
-def check_artist_name(cursor, db_connection, user_input):
-    try:
-        # SQL query to retrieve all records from the Artists table
-        query = "SELECT artist_name FROM Artists"
 
-        # Execute the query
-        cursor.execute(query)
-
-        # Fetch all the results
-        artist_records = cursor.fetchall()
-
-        # Iterate through each record and check for the user input in the artist_name field
-        for record in artist_records:
-            artist_name = record[0]
-            if user_input in artist_name:
-                print(f"'{user_input}' exists in artist name: {artist_name}")
-            else:
-                print(f"'{user_input}' does not exist in artist name: {artist_name}")
-    except mysql.connector.Error as e:
-        print(f"An error occurred: {e}")
  
 
 #################################
