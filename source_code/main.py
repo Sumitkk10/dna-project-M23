@@ -1,6 +1,7 @@
 import subprocess as sp
 import mysql.connector
 from retrieval import *
+from modification import *
 
 # Function to handle hiring an employee
 def option1(cursor, connection):
@@ -30,7 +31,7 @@ def retrieve_option1(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 1 into database")
+        print("Failed to do retrieve-option 1 into database")
         print("Error:", e)
 
 def retrieve_option2(cursor, connection):
@@ -40,7 +41,7 @@ def retrieve_option2(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 2 into database")
         print("Error:", e)
 
 def retrieve_option3(cursor, connection):
@@ -50,7 +51,7 @@ def retrieve_option3(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 3 into database")
         print("Error:", e)
 
 def retrieve_option4(cursor, connection):
@@ -61,7 +62,7 @@ def retrieve_option4(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 4 into database")
         print("Error:", e)
 
 def retrieve_option5(cursor, connection):
@@ -70,7 +71,7 @@ def retrieve_option5(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 5 into database")
         print("Error:", e)
 
 def retrieve_option6(cursor, connection):
@@ -79,7 +80,7 @@ def retrieve_option6(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 6 into database")
         print("Error:", e)
 
 def retrieve_option7(cursor, connection):
@@ -89,7 +90,7 @@ def retrieve_option7(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 7 into database")
         print("Error:", e)
 
 def retrieve_option8(cursor, connection):
@@ -99,7 +100,7 @@ def retrieve_option8(cursor, connection):
 
     except mysql.connector.Error as e:
         connection.rollback()
-        print("Failed to do sub-option 2 into database")
+        print("Failed to do retrieve-option 8 into database")
         print("Error:", e)
 
 # Function to handle other options (to be implemented)
@@ -154,9 +155,66 @@ def option2(cursor, connection):
         print("Failed to do option2 into database")
         print("Error:", e)
 
+def modify_option1(cursor, connection):
+    try:
+        genre_type = input("Enter genre: ") 
+        album_id = input("Enter album id: ")
+        release_date = input("Enter release date: ")
+        chart_position = input("Enter chart position: ") 
+        tracklist = input("Enter tracklist: ")
+        duration = input("Enter duration: ")
+        artist = input("Enter artist name: ")
+        add_album_data(cursor, connection, genre_type, album_id, release_date, chart_position, tracklist, duration, artist)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do modify-option 1 into database")
+        print("Error:", e)
+
+def modify_option2(cursor, connection):
+    try:
+        tour_id = input("Enter tour id: ")
+        start_date = input("Enter a start date: ") 
+        end_date = input("Enter a end date: ")
+        add_tour_dates(cursor, connection, tour_id, start_date, end_date)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do modify-option 2 into database")
+        print("Error:", e)
+
 def option3(cursor, connection):
     try:
-        print("Option 3 - Not implemented")
+        while True:
+            tmp = sp.call('clear', shell=True)
+            # Display sub-menu options for option 2
+            print("Option 3:")
+            # Insert
+            print("1. Add artists album data")
+            print("2. Add tour dates to the database")
+            print("7. Back to main menu")
+
+            sub_choice = int(input("Enter sub-choice> "))
+
+            if sub_choice == 7:
+                break  # Go back to the main menu
+            elif sub_choice == 1:
+                modify_option1(cursor, connection)
+            elif sub_choice == 2:
+                modify_option2(cursor, connection)
+            elif sub_choice == 3:
+                retrieve_option3(cursor, connection)
+            elif sub_choice == 4:
+                retrieve_option4(cursor, connection)
+            elif sub_choice == 5:
+                retrieve_option5(cursor, connection)
+            elif sub_choice == 6:
+                retrieve_option6(cursor, connection)
+
+            else:
+                print("Error: Invalid Sub-Option")
+
+            tmp = input("Press enter to CONTINUE>")
 
     except mysql.connector.Error as e:
         connection.rollback()
