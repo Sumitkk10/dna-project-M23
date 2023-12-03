@@ -88,7 +88,7 @@ def assign_budget_to_campaign(cursor, db_connection, campaign_name, user_budget)
                 SET Budget=%s
                 WHERE campaign_name = %s
             """, (user_budget, campaign_name))
-            campaign_name = cursor.fetchone()
+            # campaign_name = cursor.fetchone()
             db_connection.commit()
             print(f"Budget updated for campaign '{campaign_name}' to {user_budget}")
         else:

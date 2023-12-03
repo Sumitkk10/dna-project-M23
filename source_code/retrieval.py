@@ -58,11 +58,8 @@ def get_album_names_by_genre(cursor, db_connection, genre):
     try:
         # SQL query to retrieve album names based on genre
         query = f"""
-            SELECT an.AlbumName
-            FROM Genre g
-            INNER JOIN Album a ON g.AlbumID = a.AlbumID
-            INNER JOIN AlbumName an ON a.CoverID = an.CoverID
-            WHERE g.GenreType = '{genre}'
+            SELECT ArtistName FROM Genre_Artists
+            WHERE GenreType = '{genre}'
         """
 
         # Execute the query

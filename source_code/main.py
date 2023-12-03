@@ -407,7 +407,7 @@ def main():
 
             tmp = input("Press enter to CONTINUE>")
 
-            with connection.cursor() as cursor:
+            with connection.cursor(buffered=True) as cursor:
                 while True:
                     tmp = sp.call('clear', shell=True)
                     # Display menu options
