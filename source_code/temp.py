@@ -1,5 +1,6 @@
 import subprocess as sp
 import mysql.connector
+from retrieval import *
 
 # Function to handle hiring an employee
 def option1(cursor, connection):
@@ -23,19 +24,58 @@ def option1(cursor, connection):
         print("Failed to fetch data from the database")
         print("Error:", e)
 
-def sub_option1(cursor, connection):
+def retrieve_option1(cursor, connection):
     try:
-        print("hi")
-        #artists_released_past_year(connection)
+        artists_released_past_year(cursor, connection)
 
     except mysql.connector.Error as e:
         connection.rollback()
         print("Failed to do sub-option 1 into database")
         print("Error:", e)
 
-def sub_option2(cursor, connection):
+def retrieve_option2(cursor, connection):
     try:
-        print("Sub-Option 2 - Not implemented")
+        producer_id = int(input("Enter Producer ID: "))
+        get_artists_by_producer(cursor, connection, producer_id)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do sub-option 2 into database")
+        print("Error:", e)
+
+def retrieve_option3(cursor, connection):
+    try:
+        genre = (input("Enter Genre: "))
+        get_album_names_by_genre(cursor, connection, genre)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do sub-option 2 into database")
+        print("Error:", e)
+
+def retrieve_option4(cursor, connection):
+    try:
+        city = (input("Enter City: "))
+        state = (input("Enter State: "))
+        get_tours_by_location(cursor, connection, city, state)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do sub-option 2 into database")
+        print("Error:", e)
+
+def retrieve_option5(cursor, connection):
+    try:
+        total_released_albums(cursor, connection)
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to do sub-option 2 into database")
+        print("Error:", e)
+
+def retrieve_option6(cursor, connection):
+    try:
+        artist_with_min_albums(cursor, connection)
 
     except mysql.connector.Error as e:
         connection.rollback()
@@ -49,18 +89,36 @@ def option2(cursor, connection):
             tmp = sp.call('clear', shell=True)
             # Display sub-menu options for option 2
             print("Option 2:")
+            # Selection
             print("1. Recent Album Releases by Artists")
             print("2. Discover Artists Under the Guidance of a Specific Producer")
-            print("3. Back to main menu")
+            # Projection
+            print("3. Searching by Genre")
+            print("4. Searching tours in a certain Location")
+            # Aggregate 
+            print("5. Exploring Album Prolificacy")
+            print("6. Spotlighting the Minimalist Artist")
+            # Search
+            print("7. Artist Name Lookup")
+            print("8. Album Name Search")
+            print("9. Back to main menu")
 
             sub_choice = int(input("Enter sub-choice> "))
 
-            if sub_choice == 3:
+            if sub_choice == 9:
                 break  # Go back to the main menu
             elif sub_choice == 1:
-                sub_option1(cursor, connection)
+                retrieve_option1(cursor, connection)
             elif sub_choice == 2:
-                sub_option2(cursor, connection)
+                retrieve_option2(cursor, connection)
+            elif sub_choice == 3:
+                retrieve_option3(cursor, connection)
+            elif sub_choice == 4:
+                retrieve_option4(cursor, connection)
+            elif sub_choice == 5:
+                retrieve_option5(cursor, connection)
+            elif sub_choice == 6:
+                retrieve_option6(cursor, connection)
             else:
                 print("Error: Invalid Sub-Option")
 
@@ -89,6 +147,47 @@ def option4(cursor, connection):
         print("Failed to do option4 into database")
         print("Error:", e)
 
+def option5(cursor, connection):
+    try:
+        query = f"SHOW TABLES"
+        cursor.execute(query)
+
+        records = cursor.fetchall()
+
+        if records:
+            print(f"\nTables:\n")
+            for record in records:
+                print(record)
+        else:
+            print(f"\nNo table found")
+        connection.commit()
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to fetch data from the database")
+        print("Error:", e)
+
+def option6(cursor, connection):
+    try:
+        table_name = input("Enter the table name: ")
+        query = f"DESC {table_name}"
+        cursor.execute(query)
+
+        records = cursor.fetchall()
+
+        if records:
+            print(f"\nTables:\n")
+            for record in records:
+                print(record)
+        else:
+            print(f"\nNo table found")
+        connection.commit()
+
+    except mysql.connector.Error as e:
+        connection.rollback()
+        print("Failed to fetch data from the database")
+        print("Error:", e)
+
 # Function to dispatch user choices
 def dispatch(choice, cursor, connection):
     if choice == 1:
@@ -99,6 +198,10 @@ def dispatch(choice, cursor, connection):
         option3(cursor, connection)
     elif choice == 4:
         option4(cursor, connection)
+    elif choice == 5:
+        option5(cursor, connection)
+    elif choice == 6:
+        option6(cursor, connection)
     else:
         print("Error: Invalid Option")
 
@@ -137,11 +240,13 @@ def main():
                     print("2. Retrieval")
                     print("3. Modification")
                     print("4. Functional Analysis")
-                    print("5. Logout")
+                    print("5. List all tables")
+                    print("6. Describe a table")
+                    print("7. Logout")
 
                     choice = int(input("Enter choice> "))
 
-                    if choice == 5:
+                    if choice == 7:
                         exit()
                     else:
                         dispatch(choice, cursor, connection)
