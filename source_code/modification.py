@@ -34,11 +34,14 @@ def check_date_overlap(cursor, db_connection, start_date, end_date):
     overlap = cursor.fetchone()
     return overlap is not None
 
-def add_tour_dates(cursor, db_connection, tour_id, start_date, end_date):
+def add_tour_dates(cursor, db_connection, tour_id, tour_name, ticket_sales, tour_city, tour_state, tour_pincode, start_date, end_date):
     try:
         if check_date_overlap(cursor, db_connection, start_date, end_date):
             print("Error: Date overlap detected. Please choose different dates.")
         else:
+            cursor.execute("INSERT INTO Tours (tour_id, tour_name, ticket_sales) VALUES (%s, %s, %s)", (tour_id, tour_name, ticket_sales))
+            cursor.execute("INSERT INTO TourLocations (tour_id, city, state) VALUES (%s, %s, %s)", (tour_id, tour_city, tour_state))
+            cursor.execute("INSERT INTO TourAddresses (tour_id, pincode) VALUES (%s, %s)", (tour_id, tour_pincode))
             cursor.execute("INSERT INTO TourDates (tour_id, start_date, end_date) VALUES (%s, %s, %s)", (tour_id, start_date, end_date))
             db_connection.commit()
             print("Tour dates added successfully!")

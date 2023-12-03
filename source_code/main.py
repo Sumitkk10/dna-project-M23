@@ -173,10 +173,15 @@ def modify_option1(cursor, connection):
 
 def modify_option2(cursor, connection):
     try:
-        tour_id = input("Enter tour id: ")
+        tour_id = int(input("Enter tour id: "))
+        tour_name = input("Enter tour name: ")
+        ticket_sales = int(input("Enter ticket sales: "))
+        tour_city = input("Enter tour city: ")
+        tour_state = input("Enter tour state: ")
+        tour_pincode = int(input("Enter address pincode"))
         start_date = input("Enter a start date: ") 
         end_date = input("Enter a end date: ")
-        add_tour_dates(cursor, connection, tour_id, start_date, end_date)
+        add_tour_dates(cursor, connection, tour_id, tour_name, ticket_sales, tour_city, tour_state, tour_pincode, start_date, end_date)
 
     except mysql.connector.Error as e:
         connection.rollback()
