@@ -300,7 +300,7 @@ def option4(cursor, connection):
         while True:
             tmp = sp.call('clear', shell=True)
             print("Option 4:")
-            print("1. Get High Grossing Collaboration")
+            print("1. Get Highest Grossing Collaboration")
             print("2. Calculate Average Chart Position")
             print("3. Back to main menu")
 
