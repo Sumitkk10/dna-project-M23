@@ -4,11 +4,6 @@ This is a complete `MySQL database` with a `Python3 CLI`. The database `MUS3RHQ 
 
 ----
 
-# Instructions to Run the Program
-
-
-----
-
 # Functional Requirements
 
 MUS3RHQ Label supports the following functional requirements:
