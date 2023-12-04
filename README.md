@@ -4,6 +4,16 @@ This is a complete `MySQL database` with a `Python3 CLI`. The database `MUS3RHQ 
 
 ----
 
+# Requirements
+
+## Mysql Connector Python:
+
+To install mysql connector python, you can do the following:
+
+```sh
+pip install mysql-connector-python
+```
+
 # Functional Requirements
 
 MUS3RHQ Label supports the following functional requirements:
@@ -135,4 +145,9 @@ MUS3RHQ Label supports the following functional requirements:
 
 
 ----
+# Other Contributors
 
+- [Vidhi Rathore](https://github.com/vidhirathore)
+- [Abraham Paul ELenjical](https://github.com/abracodeabra1)
+- [Manasa Kalaimalai](https://github.com/manasakalaimalai/)
+- [Aadi Deshmukh](https://github.com/dsatrier)
